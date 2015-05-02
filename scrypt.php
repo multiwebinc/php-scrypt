@@ -173,8 +173,11 @@ abstract class Password
         if (!is_numeric($N) or !is_numeric($r) or !is_numeric($p)) {
             return false;
         }
+        
+        // Get key length of hash
+        $keyLength = self::strlen($hash) / 2;
 
-        $calculated = scrypt($password, $salt, $N, $r, $p, self::$_keyLength);
+        $calculated = scrypt($password, $salt, $N, $r, $p, $keyLength);
 
         // Use compareStrings to avoid timeing attacks
         return self::compareStrings($hash, $calculated);
